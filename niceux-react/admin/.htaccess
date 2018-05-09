@@ -1,0 +1,12 @@
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /NiceUX/Site/niceux/niceux-react/admin/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /NiceUX/Site/niceux/niceux-react/admin/index.php [L]
+</IfModule>
+
+# END WordPress
