@@ -1,0 +1,16 @@
+.btn {
+	color: #212121;
+}
+
+.list {
+	display: flex;
+	flex-wrap: wrap;
+	li {
+		padding: 4px;
+	}
+	@media all and (min-width: 40em) {
+	  li {
+	    width: 50%;
+	  }
+	}
+}

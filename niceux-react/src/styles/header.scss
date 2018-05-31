@@ -1,0 +1,76 @@
+.header {
+	& > ul {
+		margin: 0;
+		display: block;
+		li {
+			display: block;
+			a {
+				display: block;
+				padding: 4px 10px;
+				color: #fff;
+			}
+			&:nth-child(1) a {
+				background: #03A4F2;
+			}
+			&:nth-child(2) a {
+				background: #039be5;
+			}
+			&:nth-child(3), &:nth-child(4) {
+				display: none;
+			}
+			&:nth-child(3) a {
+				background: #038ACB;
+			}
+			&:nth-child(4) a {
+				background: #007bb7;
+			}
+		}
+		@media all and (min-width: 40em) {
+			display: flex;
+			li {
+				display: inline-block;
+				a {
+					display: inline-block;
+				}
+				&:nth-child(3), &:nth-child(4) {
+					display: inline-block;
+				}
+				&:nth-child(4) {
+					flex-grow: 1;
+					a {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}	
+	nav {
+		background: #fff;
+		box-shadow: 0 2px 1px 0 rgba(0,0,0,0.05), 0 0px 0px -5px rgba(0,0,0,0.1), 0 1px 0px 0 rgba(0,0,0,0.1);
+		height: 68px;
+		@media all and (min-width: 40em) {
+			height: 64px;
+		}
+		.brand-logo {
+			font-family: 'Teko', sans-serif;
+			font-size: 3rem;
+			color: #212121;
+			background-repeat: no-repeat;
+			background-image: url('../images/niceux-logo.png');
+			background-position: top;
+			background-size: 28px;
+    		margin-top: 14px;
+			@media all and (min-width: 40em) {
+				background-position: left;
+				background-size: 60px;
+				padding-left: 70px;
+				margin-left: 10px;
+				margin-top: 0;
+			}
+		}
+		ul a {
+			color: #039be5;	
+		}
+	}
+}
+

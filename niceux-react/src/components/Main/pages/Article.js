@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Work = () => (
+const Article = () => (
 
 	<div className="section">
-		<h2>Work</h2>
+		<h2>Article</h2>
 	</div>
 
 );
 
-export default Work;
+export default Article;

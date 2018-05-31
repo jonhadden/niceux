@@ -5,6 +5,10 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
 
+import './styles/common.scss';
+import './styles/typography.scss';
+import './styles/animations.scss';
+
 const App = () => (
     <Router>
         <div>
