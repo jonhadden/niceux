@@ -11,7 +11,7 @@ class Articles extends Component {
     }
 
     componentDidMount() {
-    	let articlesUrl = 'http://localhost:8888/NiceUX/Site/niceux/niceux-react/admin/wp-json/wp/v2/posts';
+    	let articlesUrl = 'http://niceux.com/admin/wp-json/wp/v2/posts';
         fetch(articlesUrl)
         .then(response => response.json())
         .then(response => {
@@ -39,11 +39,18 @@ class Articles extends Component {
         return (
         	<div className="articles">
 	        	<div className="container">
-		        	<div className="row">
-		     			<h3>Articles</h3>
-		    			<ul className="list">
-		    			   {articles}
-                        </ul>
+		        	<div className="pageHeader row">
+                        <div className="col s12">
+    		     			<h1>Articles on Design &amp; Code</h1>
+                            <h2>While we have the frequent opportunities to lecture at conferences and host workshops, we still like to get our thoughts about product strategy, design and code down on paper.</h2>
+                        </div>
+                    </div>
+                    <div className="pageContent row">
+                        <div className="col s12">
+    		    			<ul className="list">
+    		    			   {articles}
+                            </ul>
+                        </div>
 		    		</div>
 		    	</div>
 	     	</div>

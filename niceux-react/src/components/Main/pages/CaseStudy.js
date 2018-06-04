@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './../../../styles/casestudy.scss';
 
@@ -11,58 +12,81 @@ class CaseStudy extends Component {
         this.state = {
         	match: match,
             project: [],
-            categories: []
+            projectCategories: []
         }
     }
 
     componentDidMount() {
-        let projectUrl = `http://localhost:8888/NiceUX/Site/niceux/niceux-react/admin/wp-json/wp/v2/projects?slug=${this.state.match.params.title}`;
+        let projectUrl = `http://niceux.com/admin/wp-json/wp/v2/projects?slug=${this.state.match.params.title}`;
         fetch(projectUrl)
         .then(response => response.json())
         .then(response => {
-            let categories = response[0].categories.map(function(category){
-                let categoryUrl = `http://localhost:8888/NiceUX/Site/niceux/niceux-react/admin/wp-json/wp/v2/categories/${category}`;
-                fetch(categoryUrl)
-                .then(response => response.json())
-                .then(response => {
-                    return categories = categories;
-                })
-            }) 
-
             this.setState({
                 project: response
             })
         })
+
+        setTimeout(function() { 
+
+            let categoriesUrl = "http://niceux.com/admin/wp-json/wp/v2/categories";
+            fetch(categoriesUrl)
+            .then(response => response.json())
+            .then(response => {
+                var projectCategoryIds = this.state.project[0].categories;
+                const filteredCategories = response.filter(category => projectCategoryIds.includes(category.id));
+                this.setState({
+                    projectCategories: filteredCategories
+                })
+            })
+
+        }.bind(this), 100);
+
     }
 
     render() {
 
-        let category = this.state.categories.map((category, index) => {
+        let projectCategories = this.state.projectCategories.map((category, index) => {
             return (
                 <li key={index}>
-                    {category}
+                    <Link to={`/category/${category.slug}`}>
+                        {category.name}
+                    </Link>
                 </li>
             )
         })
 
         let project = this.state.project.map((project, index) => {
             return (
-                <div className="hero" key={index} style={{ backgroundImage: `url(${project.acf.featured_image.url})` }} >
-                    <div className="row">
-                        <div className="col s12 m8 l5">
-                            <h2>{project.title.rendered}</h2>
-                            <h3 dangerouslySetInnerHTML={ {__html: project.excerpt.rendered} } />
-                            <div dangerouslySetInnerHTML={ {__html: project.content.rendered} } />
+                <div key={index}>
+                    <div className="hero" style={{ backgroundImage: `url(${project.acf.featured_image.url})` }} ></div>
+                    <div className="container">
+                        <div className="pageHeader row">
+                            <div className="col s12">
+                                <h1>{project.title.rendered}</h1>
+                                <h2 dangerouslySetInnerHTML={ {__html: project.excerpt.rendered} } />
+                            </div>
+                        </div>
+                        <div className="pageContent row">
+                            <div className="col s12 m2 metadata">
+                                <h4>Services</h4>
+                                <ul>
+                                    {projectCategories}
+                                </ul>
+                            </div>
+                            <div className="col s12 m8">
+                                <div dangerouslySetInnerHTML={ {__html: project.content.rendered} } />
+                            </div>
                         </div>
                     </div>
                 </div>
             )
         })
 
+
         return (
             <div className="case-study">
                 {project}
-            </div>       
+            </div>
         );
 
 

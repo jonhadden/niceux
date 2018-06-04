@@ -8,6 +8,7 @@ import CaseStudy from './pages/CaseStudy';
 import Articles from './pages/Articles';
 import Article from './pages/Article';
 import Contact from './pages/Contact';
+import Category from './pages/Category';
 
 const Main = () => {
 
@@ -24,6 +25,7 @@ const Main = () => {
 					<Route exact path="/articles" component={Articles} />
 					<Route path="/articles/:title" component={Article} />
 					<Route path="/contact" component={Contact} />
+					<Route path="/category/:category" component={Category} />
 				</Switch>
 			</CSSTransition>
 		</TransitionGroup>
