@@ -14,6 +14,8 @@ class Article extends Component {
         	match: match,
             article: [],
             articleCategories: [],
+            author: [],
+            avatars: [],
             isloading: true
         }
     }
@@ -25,6 +27,17 @@ class Article extends Component {
         .then(response => {
             this.setState({
                 article: response
+            })
+
+            let authorUrl = `http://niceux.com/admin/wp-json/wp/v2/users/${response[0].author}`;
+            fetch(authorUrl)
+            .then(response => response.json())
+            .then(response => {
+                let avatarUrls = Object.values(response.avatar_urls);
+                this.setState({
+                    author: response,
+                    avatars: avatarUrls
+                })
             })
         })
 
@@ -62,12 +75,15 @@ class Article extends Component {
             )
         })
 
+        let author = this.state.author;
+        let avatarUrls = this.state.avatars;
+
         let article = this.state.article.map((article, index) => {
             return (
                 <div key={index}>
                     <div className="container">
                         <div className="row">
-                            <div className="col s12">
+                            <div className="col s12 m10 offset-m1">
                                 <h2>{article.title.rendered}</h2>
                                 <h3 dangerouslySetInnerHTML={ {__html: article.excerpt.rendered} } />
                             </div>
@@ -75,13 +91,26 @@ class Article extends Component {
                     </div>
                     <div className="container content">
                         <div className="row">
-                            <div className="col s12 m2 metadata">
-                                <h4>Categories</h4>
-                                <ul>
+                            <div className="col s12 m10 offset-m1">
+                                <div className="author">
+                                    <img src={avatarUrls[2]} alt="Author Profile" className="responsive-img" />
+                                    <h4>
+                                        <span>Posted by:</span>
+                                        <strong>{author.name}</strong>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col s12 m10 offset-m1">
+                                <ul className="tags">
+                                    <li>Posted in:</li>
                                     {articleCategories}
                                 </ul>
                             </div>
-                            <div className="col s12 m8">
+                        </div>
+                        <div className="row">
+                            <div className="col s12 m10 offset-m1">
                                 <div dangerouslySetInnerHTML={ {__html: article.content.rendered} } />
                             </div>
                         </div>

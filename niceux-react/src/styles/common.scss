@@ -86,6 +86,32 @@
 	}
 }
 
+.tags {
+	margin: 0;
+	li {
+		display: inline-block;
+		margin: 0 6px 6px 0;
+		&:after {
+			content: ','
+		}
+		&:first-of-type {
+			height: 12px;
+			color: #aaa;
+			&:after {
+				content: ''
+			}
+		}
+		&:last-of-type {
+			&:after {
+				content: ''
+			}
+		}
+	}
+	a {
+		display: inline-block;
+	}
+}
+
 .loader {
 	display: block;
 	width: 100%;

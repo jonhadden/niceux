@@ -25,6 +25,7 @@ class CaseStudy extends Component {
         fetch(caseStudyUrl)
         .then(response => response.json())
         .then(response => {
+            console.log(response);
             this.setState({
                 caseStudy: response
             })
