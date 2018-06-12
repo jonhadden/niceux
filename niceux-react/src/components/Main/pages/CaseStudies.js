@@ -1,37 +1,45 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from './../Loader.js';
+
+import './../../../styles/casestudy.scss';
 
 class CaseStudies extends Component {
 
 	constructor() {
         super();
         this.state = {
-            caseStudies: []
+            caseStudies: [],
+            isloading: true
         }
     }
 
     componentDidMount() {
+        
     	let caseStudiesUrl = 'http://niceux.com/admin/wp-json/wp/v2/projects';
         fetch(caseStudiesUrl)
         .then(response => response.json())
         .then(response => {
             this.setState({
-                caseStudies: response
+                caseStudies: response,
+                isloading: false
             })
         })
     }
 
     render() {
-    	let caseStudies = this.state.caseStudies.map((caseStudy, index) => {
+
+        let isloading = this.state.isloading;
+
+        let caseStudies = this.state.caseStudies.map((caseStudy, index) => {
             return (
-            	<li key={index}>
-            		<h5>
-            			<Link to={`/case-studies/${caseStudy.slug}`}>
-				        	{caseStudy.title.rendered}
-						</Link>
-					</h5>
-					<span dangerouslySetInnerHTML={ {__html: caseStudy.excerpt.rendered} } />
-				</li>
+                <li key={index}>
+                    <Link to={`/case-studies/${caseStudy.slug}`}>
+                        <img src={caseStudy.acf.list_image.sizes.large} alt={caseStudy.acf.list_image.alt} />
+                        <h5>{caseStudy.title.rendered}</h5>
+                    </Link>
+                    <span dangerouslySetInnerHTML={ {__html: caseStudy.excerpt.rendered} } />
+                </li>
             )
         })
 
@@ -47,7 +55,11 @@ class CaseStudies extends Component {
                     <div className="pageContent row">
                         <div className="col s12">
     		    			<ul className="list">
-    		    			   {caseStudies} 
+                               {isloading ? (
+                                    <Loader />
+                                ) : ( 
+                                    caseStudies
+                                )}
                             </ul>
                         </div>
 		    		</div>

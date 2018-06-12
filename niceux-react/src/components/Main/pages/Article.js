@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from './../Loader.js';
 
 import './../../../styles/article.scss';
 
@@ -12,7 +13,8 @@ class Article extends Component {
         this.state = {
         	match: match,
             article: [],
-            articleCategories: []
+            articleCategories: [],
+            isloading: true
         }
     }
 
@@ -34,18 +36,21 @@ class Article extends Component {
             .then(response => {
 
                 var articleCategoryIds = this.state.article[0].categories;
-                console.log(articleCategoryIds, response);
+
                 const filteredCategories = response.filter(category => articleCategoryIds.includes(category.id));
                 this.setState({
-                    articleCategories: filteredCategories
+                    articleCategories: filteredCategories,
+                    isloading: false
                 })
             })
 
-        }.bind(this), 100);
+        }.bind(this), 500);
 
     }
 
     render() {
+
+        let isloading = this.state.isloading;
 
         let articleCategories = this.state.articleCategories.map((category, index) => {
             return (
@@ -88,7 +93,11 @@ class Article extends Component {
 
         return (
             <div className="article">
-                {article}
+                {isloading ? (
+                    <Loader />
+                ) : ( 
+                    article
+                )}
             </div>
         );
 

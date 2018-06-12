@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from './../Loader.js';
 
 import './../../../styles/home.scss';
 
@@ -9,7 +10,8 @@ class Home extends Component {
         super();
         this.state = {
         	feature: [],
-            articles: []
+            articles: [],
+            isloading: true
         }
     }
 
@@ -21,8 +23,9 @@ class Home extends Component {
         .then(response => {
 			const feature = response.filter(feature => feature.acf.featured_case_study === true);
             this.setState({
-                feature: feature
-            })
+                feature: feature,
+                isloading: false
+            });
         })
 
         let articlesUrl = 'http://niceux.com/admin/wp-json/wp/v2/posts?per_page=4';
@@ -31,11 +34,14 @@ class Home extends Component {
         .then(response => {
             this.setState({
                 articles: response
-            })
-        })
+            });
+        });
+
     }
 
     render() {
+
+        let isloading = this.state.isloading;
 
     	let featureProject = this.state.feature.map((feature, index) => {
     		return (
@@ -70,12 +76,16 @@ class Home extends Component {
         return (
         	<div className="home">
 
-	        	{featureProject}
+	        	{isloading ? (
+                    <Loader />
+                ) : ( 
+                    featureProject
+                )}
 
 	        	<div className="container">
 		        	<div className="about row">
 		        		<h3>User Experience Design, Usability Research <br/>&amp; Frontend Engineering </h3>
-                        <h4>Following a user-centered design methodology, we ensure to consider content, context and human factors of a product's design before we start designing. Unlike marketing and advertising agencies, we understand how digital products are different than marketing fluff, and we know how to plan for it giving you the edge over competition.</h4>
+                        <h4>We drive business growth by creating digital products and services that are guaranteed to improve your bottom line. We combine an understanding of leading edge technology with a user-centered and collaborative design methodology to create valuable, usable and streamlined software.</h4>
                     </div>
                     <div className="row">
 		     			<h3>Recent Articles</h3>

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from './../Loader.js';
+/* import Highlight from 'react-highlight'; */
 
 import './../../../styles/casestudy.scss';
+/* import './../../../styles/syntax-highlight.scss'; */
 
 class CaseStudy extends Component {
 
@@ -11,18 +14,19 @@ class CaseStudy extends Component {
 
         this.state = {
         	match: match,
-            project: [],
-            projectCategories: []
+            caseStudy: [],
+            caseStudyCategories: [],
+            isloading: true
         }
     }
 
     componentDidMount() {
-        let projectUrl = `http://niceux.com/admin/wp-json/wp/v2/projects?slug=${this.state.match.params.title}`;
-        fetch(projectUrl)
+        let caseStudyUrl = `http://niceux.com/admin/wp-json/wp/v2/projects?slug=${this.state.match.params.title}`;
+        fetch(caseStudyUrl)
         .then(response => response.json())
         .then(response => {
             this.setState({
-                project: response
+                caseStudy: response
             })
         })
 
@@ -32,20 +36,23 @@ class CaseStudy extends Component {
             fetch(categoriesUrl)
             .then(response => response.json())
             .then(response => {
-                var projectCategoryIds = this.state.project[0].categories;
-                const filteredCategories = response.filter(category => projectCategoryIds.includes(category.id));
+                var caseStudyCategoryIds = this.state.caseStudy[0].categories;
+                const filteredCategories = response.filter(category => caseStudyCategoryIds.includes(category.id));
                 this.setState({
-                    projectCategories: filteredCategories
+                    caseStudyCategories: filteredCategories,
+                    isloading: false
                 })
             })
 
-        }.bind(this), 100);
+        }.bind(this), 500);
 
     }
 
     render() {
 
-        let projectCategories = this.state.projectCategories.map((category, index) => {
+        let isloading = this.state.isloading;
+
+        let caseStudyCategories = this.state.caseStudyCategories.map((category, index) => {
             return (
                 <li key={index}>
                     <Link to={`/category/${category.slug}`}>
@@ -55,26 +62,26 @@ class CaseStudy extends Component {
             )
         })
 
-        let project = this.state.project.map((project, index) => {
+        let caseStudy = this.state.caseStudy.map((caseStudy, index) => {
             return (
                 <div key={index}>
-                    <div className="hero" style={{ backgroundImage: `url(${project.acf.featured_image.url})` }} ></div>
+                    <div className="hero" style={{ backgroundImage: `url(${caseStudy.acf.list_image.url})` }} ></div>
                     <div className="container">
                         <div className="pageHeader row">
                             <div className="col s12">
-                                <h1>{project.title.rendered}</h1>
-                                <h2 dangerouslySetInnerHTML={ {__html: project.excerpt.rendered} } />
+                                <h1>{caseStudy.title.rendered}</h1>
+                                <h2 dangerouslySetInnerHTML={ {__html: caseStudy.excerpt.rendered} } />
                             </div>
                         </div>
                         <div className="pageContent row">
                             <div className="col s12 m2 metadata">
                                 <h4>Services</h4>
                                 <ul>
-                                    {projectCategories}
+                                    {caseStudyCategories}
                                 </ul>
                             </div>
                             <div className="col s12 m8">
-                                <div dangerouslySetInnerHTML={ {__html: project.content.rendered} } />
+                                <div dangerouslySetInnerHTML={ {__html: caseStudy.content.rendered} } />
                             </div>
                         </div>
                     </div>
@@ -85,7 +92,11 @@ class CaseStudy extends Component {
 
         return (
             <div className="case-study">
-                {project}
+                {isloading ? (
+                    <Loader />
+                ) : ( 
+                    caseStudy
+                )}
             </div>
         );
 

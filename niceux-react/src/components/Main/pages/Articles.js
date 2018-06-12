@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from './../Loader.js';
+
+import './../../../styles/casestudy.scss';
 
 class Articles extends Component {
 
 	constructor() {
         super();
         this.state = {
-            articles: []
+            articles: [],
+            isloading: true
         }
     }
 
@@ -15,14 +19,17 @@ class Articles extends Component {
         fetch(articlesUrl)
         .then(response => response.json())
         .then(response => {
-        	console.log(response);
             this.setState({
-                articles: response
+                articles: response,
+                isloading: false
             })
         })
     }
 
     render() {
+
+        let isloading = this.state.isloading;
+
     	let articles = this.state.articles.map((article, index) => {
             return (
             	<li key={index}>
@@ -48,7 +55,11 @@ class Articles extends Component {
                     <div className="pageContent row">
                         <div className="col s12">
     		    			<ul className="list">
-    		    			   {articles}
+                               {isloading ? (
+                                    <Loader />
+                                ) : ( 
+                                    articles
+                                )}
                             </ul>
                         </div>
 		    		</div>
