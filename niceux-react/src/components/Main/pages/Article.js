@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import DocumentMeta from 'react-document-meta';
+import Moment from 'react-moment';
 import Loader from './../Loader.js';
 
 import './../../../styles/article.scss';
@@ -21,6 +23,7 @@ class Article extends Component {
     }
 
     componentDidMount() {
+
         let articleUrl = `http://niceux.com/admin/wp-json/wp/v2/posts?slug=${this.state.match.params.title}`;
         fetch(articleUrl)
         .then(response => response.json())
@@ -97,6 +100,11 @@ class Article extends Component {
                                     <h4>
                                         <span>Posted by:</span>
                                         <strong>{author.name}</strong>
+                                        <span>on&nbsp;
+                                            <Moment format="LL">
+                                                {article.modified}
+                                            </Moment>
+                                        </span>
                                     </h4>
                                 </div>
                             </div>
@@ -118,9 +126,32 @@ class Article extends Component {
                 </div>
             )
         })
-
+        
+        let meta = {
+          title: (this.state.article[0]) ? this.state.article[0].title.rendered : '',
+          description: (this.state.article[0]) ? this.state.article[0].excerpt.rendered.innerText : '',
+          canonical: 'http://niceux.com/articles/' + ((this.state.article[0]) ? this.state.article[0].slug : ''),
+          meta: {
+            charSet: 'utf-8',
+            itemProp: {
+              name: (this.state.article[0]) ? this.state.article[0].title.rendered : '',
+              description: 'This is the page description'
+            },
+            property: {
+              'og:title': (this.state.article[0]) ? this.state.article[0].title.rendered : '',
+              'og:type': 'article',
+              'og:site_name': 'NiceUX - Usability and Engineering Consultants',
+              'twitter:site': '@niceux',
+              'twitter:title': (this.state.article[0]) ? this.state.article[0].title.rendered : ''
+            }
+          },
+          auto: {
+            ograph: true
+          }
+        };
 
         return (
+            <DocumentMeta {...meta}>
             <div className="article">
                 {isloading ? (
                     <Loader />
@@ -128,6 +159,7 @@ class Article extends Component {
                     article
                 )}
             </div>
+            </DocumentMeta>
         );
 
 

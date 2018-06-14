@@ -49,7 +49,7 @@ class Home extends Component {
                     <div className="container">
     	        		<div className="row">
     	        			<div className="col s12 m8 l6">
-    		        			<p className="projectType">Case Study</p>
+    		        			<p className="projectType">Featured Case Study</p>
     		        			<h2>{feature.title.rendered}</h2>
     		        			<h3 dangerouslySetInnerHTML={ {__html: feature.acf.lead_in} } />
     		        			<Link to={`/case-studies/${feature.slug}`} className="btn grey lighten-5">View Case Study</Link>
