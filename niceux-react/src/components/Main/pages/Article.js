@@ -126,23 +126,23 @@ class Article extends Component {
                 </div>
             )
         })
-        
+
         let meta = {
-          title: (this.state.article[0]) ? this.state.article[0].title.rendered : '',
+          title: ((this.state.article[0]) ? this.state.article[0].title.rendered : '') + ' - NiceUX',
           description: (this.state.article[0]) ? this.state.article[0].excerpt.rendered.innerText : '',
           canonical: 'http://niceux.com/articles/' + ((this.state.article[0]) ? this.state.article[0].slug : ''),
           meta: {
             charSet: 'utf-8',
             itemProp: {
-              name: (this.state.article[0]) ? this.state.article[0].title.rendered : '',
+              name: ((this.state.article[0]) ? this.state.article[0].title.rendered : '') + ' - NiceUX',
               description: 'This is the page description'
             },
             property: {
-              'og:title': (this.state.article[0]) ? this.state.article[0].title.rendered : '',
+              'og:title': ((this.state.article[0]) ? this.state.article[0].title.rendered : '') + ' - NiceUX',
               'og:type': 'article',
               'og:site_name': 'NiceUX - Usability and Engineering Consultants',
               'twitter:site': '@niceux',
-              'twitter:title': (this.state.article[0]) ? this.state.article[0].title.rendered : ''
+              'twitter:title': ((this.state.article[0]) ? this.state.article[0].title.rendered : '') + ' - NiceUX'
             }
           },
           auto: {
