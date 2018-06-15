@@ -10,6 +10,8 @@ import Article from './pages/Article';
 import Contact from './pages/Contact';
 import Category from './pages/Category';
 
+import './../../styles/animations.scss';
+
 const Main = () => {
 
   	const timeout = { enter: 300, exit: 200 };
