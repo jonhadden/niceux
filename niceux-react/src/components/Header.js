@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import './../styles/header.scss';
 
@@ -7,6 +7,7 @@ class Header extends Component {
 
 	constructor(props) {
         super(props);
+
         this.state = {
         	showHideNav: false
         }
@@ -16,6 +17,17 @@ class Header extends Component {
 	    this.setState(prevState => ({
 		  showHideNav: !prevState.showHideNav
 		}));
+	}
+
+	componentWillMount() {
+		this.unlisten = this.props.history.listen((location, action) => {
+			this.setState({
+				showHideNav: false
+			});
+		});
+	}
+	componentWillUnmount() {
+		this.unlisten();
 	}
 
     render() {
@@ -37,6 +49,7 @@ class Header extends Component {
 							<div className="hamburger-box"><div className="hamburger-inner"></div></div>
 						</button>
 						<ul className={(this.state.showHideNav === true) ? "show" : null}>
+							<li><Link to="/about">About</Link></li>
 							<li><Link to="/case-studies">Case Studies</Link></li>
 							<li><Link to="/articles">Articles</Link></li>
 							{/*<li><Link to="/contact">Contact</Link></li>*/}
@@ -49,4 +62,4 @@ class Header extends Component {
 
 };
 
-export default Header;
+export default withRouter(Header);

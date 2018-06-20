@@ -14,6 +14,7 @@ const Footer = () => (
 	        <h5 className="white-text">Links</h5>
 	        <ul>
 	          <li><Link className="grey-text text-lighten-3" to="/">Home</Link></li>
+	          <li><Link className="grey-text text-lighten-3" to="/about">About</Link></li>
 	          <li><Link className="grey-text text-lighten-3" to="/case-studies">Case Studies</Link></li>
 	          <li><Link className="grey-text text-lighten-3" to="/articles">Articles</Link></li>
 	          {/*<li><Link className="grey-text text-lighten-3" to="/contact">Contact</Link></li>*/}
